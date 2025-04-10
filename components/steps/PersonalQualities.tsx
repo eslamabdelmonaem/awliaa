@@ -2,23 +2,24 @@ import { Form, Input, Select, Radio } from 'antd';
 import { useStepperContext } from '../../contexts/StepperContext';
 import { useTranslation } from 'react-i18next';
 import { CheckboxGroupProps } from 'antd/es/checkbox';
+import { GroomPhysiqueStatus, HealthStatus, SkinColor } from '@component/types/user-details';
 
 export default function PersonalQualities() {
   const { updateStepData } = useStepperContext();
   const { t: translate } = useTranslation('common');
 
   const healthConditionOptions: CheckboxGroupProps<string>['options'] = [
-    { label: translate('good'), value: 'good' },
-    { label: translate('mild disability'), value: 'mildDisability' },
-    { label: translate('chronic disease'), value: 'chronicDisease' },
-    { label: translate('disabled'), value: 'disabled' },
+    { label: translate('good'), value: HealthStatus.HEALTHY },
+    { label: translate('mild disability'), value: HealthStatus.MILD_DISABILITY },
+    { label: translate('chronic disease'), value: HealthStatus.CHRONIC_DISEASE },
+    { label: translate('disabled'), value: HealthStatus.PEOPLE_OF_DETERMINATION },
   ];
 
   const physiqueOptions: CheckboxGroupProps<string>['options'] = [
-    { label: translate('thin'), value: 'thin' },
-    { label: translate('fit'), value: 'fit' },
-    { label: translate('medium'), value: 'medium' },
-    { label: translate('fat'), value: 'fat' },
+    { label: translate('thin'), value: GroomPhysiqueStatus.SLIM },
+    { label: translate('fit'), value: GroomPhysiqueStatus.ATHLETE },
+    { label: translate('medium'), value: GroomPhysiqueStatus.MEDIUM },
+    { label: translate('fat'), value: GroomPhysiqueStatus.OVER_WEIGHT },
   ];
 
   const smokingOptions: CheckboxGroupProps<string>['options'] = [
@@ -32,12 +33,12 @@ export default function PersonalQualities() {
   ];
 
   const skinColorOptions: CheckboxGroupProps<string>['options'] = [
-    { label: translate('white'), value: 'white' },
-    { label: translate('light wheat'), value: 'lightWheat' },
-    { label: translate('wheat'), value: 'wheat' },
-    { label: translate('light brown'), value: 'lightBrown' },
-    { label: translate('brown'), value: 'brown' },
-    { label: translate('dark brown'), value: 'darkBrown' },
+    { label: translate('white'), value: SkinColor.WHITE },
+    { label: translate('light wheat'), value: SkinColor.LIGHT_TAN },
+    { label: translate('wheat'), value: SkinColor.TAN },
+    { label: translate('light brown'), value: SkinColor.MEDIUM_BROWN },
+    { label: translate('brown'), value: SkinColor.BROWN },
+    { label: translate('dark brown'), value: SkinColor.DARK_BROWN },
   ];
 
   const originOptions: CheckboxGroupProps<string>['options'] = [
@@ -52,7 +53,7 @@ export default function PersonalQualities() {
     <Form layout="vertical" className="text-xs form-container">
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
-          className="user-info-select min-w-[200px]"
+          className="user-info-select min-w-[195px]"
           label={translate('age')}
           name="age"
           rules={[{ required: true, message: 'Please select your age!' }]}>
@@ -68,7 +69,7 @@ export default function PersonalQualities() {
           label={translate('height')}
           name="height"
           rules={[{ required: true, message: 'Please select your height!' }]}
-          className="user-info-select min-w-[200px]">
+          className="user-info-select min-w-[198px]">
           <Select placeholder={translate('choose height')}>
             {Array.from({ length: 250 }, (_, i) => (
               <Select.Option key={i + 1} value={i + 1}>
@@ -81,7 +82,7 @@ export default function PersonalQualities() {
           label={translate('weight')}
           name="weight"
           rules={[{ required: true, message: 'Please select your weight!' }]}
-          className="user-info-select min-w-[200px]">
+          className="user-info-select min-w-[198px]">
           <Select placeholder={translate('choose weight')}>
             {Array.from({ length: 350 }, (_, i) => (
               <Select.Option key={i + 1} value={i + 1}>
@@ -93,6 +94,7 @@ export default function PersonalQualities() {
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
+          initialValue={HealthStatus.HEALTHY}
           rules={[{ required: true, message: 'Please select option!' }]}
           label={translate('health condition')}
           name="healthCondition"
@@ -100,12 +102,12 @@ export default function PersonalQualities() {
           <Radio.Group
             className="health-radio-button radio-group-spacing"
             options={healthConditionOptions}
-            defaultValue="good"
             optionType="button"
             buttonStyle="solid"
           />
         </Form.Item>
         <Form.Item
+          initialValue={GroomPhysiqueStatus.ATHLETE}
           label={translate('physique')}
           rules={[{ required: true, message: 'Please select option!' }]}
           name="physique"
@@ -113,7 +115,6 @@ export default function PersonalQualities() {
           <Radio.Group
             className="health-radio-button radio-group-spacing"
             options={physiqueOptions}
-            defaultValue="fat"
             optionType="button"
             buttonStyle="solid"
           />
@@ -151,13 +152,10 @@ export default function PersonalQualities() {
         <Form.Item
           rules={[{ required: true, message: 'Please select option!' }]}
           label={translate('skin color')}
+          initialValue={SkinColor.WHITE}
           name="skinColor"
           className="xs:w-[100%] lg:w-[50%]">
-          <Radio.Group
-            className="skin-radio-button radio-group-spacing"
-            defaultValue="white"
-            optionType="button"
-            buttonStyle="solid">
+          <Radio.Group className="skin-radio-button radio-group-spacing" optionType="button" buttonStyle="solid">
             {skinColorOptions.map((option) => {
               if (typeof option === 'object') {
                 return (

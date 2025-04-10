@@ -2,9 +2,8 @@ import { FormInstance } from 'antd';
 import { UserType } from './user';
 
 export type LoginValues = {
-  phone: string;
+  username: string;
   password: string;
-  rememberMe: boolean;
 };
 export type AuthContextData = {
   user?: UserType | null;

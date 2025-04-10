@@ -76,5 +76,6 @@
   "remember me": "Remember me",
   "terms and conditions acceptance": "I accept the terms and conditions",
   "confirm mobile": "Confirm phone number",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "MOBILE_ALREADY_EXISTS": "Mobile number already exists"
 }

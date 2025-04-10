@@ -24,14 +24,15 @@ export default function Header({ isAuthenticated }: IHeaderProps) {
       </div>
       <div className="user-info-wrapper">
         {isAuthenticated ? (
-          <Image
-            className="user-profile-photo"
-            src="/assets/icons/avatar-placeholder.svg"
-            alt="avatar-image"
-            width={40}
-            height={40}
-          />
+          <img className="user-profile-photo" src="/assets/icons/avatar-icon.svg" alt="" />
         ) : (
+          // <Image
+          //   className="user-profile-photo"
+          //   src="/assets/icons/avatar-placeholder.svg"
+          //   alt="avatar-image"
+          //   width={40}
+          //   height={40}
+          // />
           <Button type="link" href="/register" className="register-button" shape="round">
             {translate('create account')}
           </Button>

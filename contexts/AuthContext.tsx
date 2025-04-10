@@ -43,25 +43,15 @@ export default function AuthContextProvider({ children, SSRUser }: ProviderProps
     async (values: LoginValues, form: FormInstance) => {
       setLoading(true);
       await client
-        .post(
-          `/api/login`,
-          { ...values },
-          {
-            baseURL: router.basePath,
-          },
-        )
+        .post(`/api/mobile/login`, { ...values })
         .then(async (response) => {
           setAuthModalVisiablity(false);
           client.defaults.headers.common.Authorization = `Bearer ${response.data.id_token}`;
           setToken(response.data.id_token);
           setUser(response.data.user as UserType);
           setClientLogin(response.data.user.clientDTO);
-          if (
-            response.data &&
-            response.data.user.userDTO &&
-            response.data.user.userDTO.authorities &&
-            response.data.user.userDTO.authorities.length >= 0
-          ) {
+          if (response.status === 200 || response.status === 201) {
+            console.log({ response });
             router.push('/complete-registration');
           }
         })

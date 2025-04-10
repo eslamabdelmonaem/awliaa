@@ -6,13 +6,18 @@ import OtpInput from 'react-otp-input';
 import { useEffect, useState } from 'react';
 import BackButton from '@icons/arrow-left-icon.svg';
 import useVerifyOtp from '@component/hooks/useVerifyOtp';
+import { useAuth } from '@component/contexts/AuthContext';
 
 const RESEND_INTERVAL = 120;
 
+export type OtpForm = {
+  otp: string;
+};
+
 export default function OTP() {
   const { t: translate } = useTranslation('common');
-  const { otpMutation } = useVerifyOtp();
-
+  const { otpMutation, userData } = useVerifyOtp();
+  const { setUser } = useAuth();
   const [form] = useForm();
   const [otp, setOtp] = useState('');
   const [timeLeft, setTimeLeft] = useState(RESEND_INTERVAL);
@@ -32,14 +37,19 @@ export default function OTP() {
   //     setTimeLeft(RESEND_INTERVAL);
   //     setIsResendEnabled(false);
   //   };
-
+  useEffect(() => {
+    if (otpMutation.isSuccess && userData) {
+      setUser(userData);
+    }
+  }, [otpMutation.isSuccess, userData, setUser]);
   const formatTime = (seconds: number) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, '0');
     const s = String(seconds % 60).padStart(2, '0');
     return `${m}:${s}`;
   };
-  const onFinish = async (otp: string) => {
-    otpMutation.mutate(otp);
+
+  const onFinish = async (values: OtpForm) => {
+    otpMutation.mutate(values.otp);
   };
   return (
     <AuthCard footerText={formatTime(timeLeft)}>

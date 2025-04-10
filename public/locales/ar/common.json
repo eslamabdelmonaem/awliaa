@@ -76,5 +76,6 @@
   "remember me": "تذكرني",
   "terms and conditions acceptance": "الموافقة علي الشروط والاحكام",
   "confirm mobile": "تاكيد رقم الجوال",
-  "confirm": "تاكيد"
+  "confirm": "تاكيد",
+  "MOBILE_ALREADY_EXISTS": "رقم الجوال مستخدم بالفعل"
 }

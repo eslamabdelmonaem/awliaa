@@ -6,48 +6,47 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useForm } from 'antd/es/form/Form';
 import Link from 'next/link';
-import useStoreUser from '@component/hooks/register';
-import { UserRole, UserType } from '@component/types/user';
+import { UserRole } from '@component/types/user';
 import { useState } from 'react';
+import { useAuth } from '@component/contexts/AuthContext';
+import { toast } from 'react-toastify';
+import { UserTypeDto } from './register';
 
-export type UserTypeDto = {
-  username?: string;
-  mobile?: string;
-  authority?: UserRole;
-  password?: string;
-};
-
-export default function Register() {
+export default function Login() {
   const { t: translate, i18n } = useTranslation('common');
-  const { setUserData } = useStoreUser();
+  const { login } = useAuth();
   const [form] = useForm();
   const [authority, setAuthority] = useState<UserRole>(UserRole.GROOM);
-
-  const onLoginTypeChange = ({ target: { value } }: RadioChangeEvent) => {
-    setAuthority(value);
-  };
-  const loginOptions: CheckboxGroupProps<UserRole>['options'] = [
+  const loginOptions: CheckboxGroupProps<string>['options'] = [
     { label: translate('groom'), value: UserRole.GROOM },
     { label: translate('parent'), value: UserRole.PARENT },
   ];
-
-  const onFinish = async (values: UserTypeDto) => {
-    const user: UserType = {
-      username: values.username,
-      mobile: values.mobile,
-      authority: values.authority,
-      password: values.password,
-    };
-    setUserData(user);
+  const onLoginTypeChange = ({ target: { value } }: RadioChangeEvent) => {
+    setAuthority(value);
   };
 
+  const onFinish = async (values: UserTypeDto) => {
+    if (login) {
+      try {
+        await login(
+          {
+            username: values.mobile || '',
+            password: values.password || '',
+          },
+          form,
+        );
+      } catch (error) {
+        toast.error('error while logging');
+      }
+    }
+  };
   return (
     <AuthCard
-      title={translate('sign up')}
-      footerText={translate('already have account')}
-      footerLinkText={translate('sign in')}
-      footerLinkHref="/login">
-      <Form form={form} name="register" onFinish={onFinish} layout="vertical" className="space-y-6">
+      title={translate('sign in')}
+      footerText={translate('dont have account')}
+      footerLinkText={translate('sign up')}
+      footerLinkHref="/register">
+      <Form form={form} name="login" onFinish={onFinish} layout="vertical" className="space-y-6">
         <Form.Item
           initialValue={UserRole.GROOM}
           rules={[{ required: true }]}
@@ -61,10 +60,6 @@ export default function Register() {
             optionType="button"
             buttonStyle="solid"
           />
-        </Form.Item>
-
-        <Form.Item name="username" rules={[{ required: true, message: translate('please enter username') }]}>
-          <Input className="form-input-field" placeholder={translate('enter username')} />
         </Form.Item>
 
         <Form.Item name="mobile" rules={[{ required: true, message: translate('please enter phone number') }]}>
@@ -92,17 +87,22 @@ export default function Register() {
             }}
           />
         </Form.Item>
+
         <Form.Item name="password" rules={[{ required: true, message: translate('please enter password') }]}>
           <Input.Password className="form-input-field" placeholder={translate('enter password')} />
         </Form.Item>
-        <Form.Item
-          name="remember"
-          rules={[{ required: true, message: translate('please select option') }]}
-          valuePropName="checked">
-          <Checkbox>
-            <Link href="#">{translate('terms and conditions acceptance')}</Link>
-          </Checkbox>
-        </Form.Item>
+        <div className="password-wrapper">
+          <Form.Item name="remember" valuePropName="checked">
+            <Checkbox>{translate('remember me')}</Checkbox>
+          </Form.Item>
+
+          <Form.Item name="remember" valuePropName="checked">
+            <Link href="#" className="text-black">
+              {translate('forgot password')}
+            </Link>
+          </Form.Item>
+        </div>
+
         <Form.Item>
           <Button htmlType="submit" className="form-button">
             {translate('sign in')}{' '}

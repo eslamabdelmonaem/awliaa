@@ -1,0 +1,47 @@
+export enum RelationStatus {
+  FATHER = 'FATHER',
+  BROTHER = 'BROTHER',
+  MATERNAL_UNCLE = 'MATERNAL_UNCLE',
+  PATERNAL_UNCLE = 'PATERNAL_UNCLE',
+  GRANDFATHER = 'GRANDFATHER',
+  SON = 'SON',
+  OTHER = 'OTHER',
+}
+
+export enum HealthStatus {
+  HEALTHY = 'HEALTHY',
+  CHRONIC_DISEASE = 'CHRONIC_DISEASE',
+  MILD_DISABILITY = 'MILD_DISABILITY',
+  PEOPLE_OF_DETERMINATION = 'PEOPLE_OF_DETERMINATION',
+}
+
+export enum PhysiqueStatus {
+  VERY_SLIM = 'VERY_SLIM',
+  SLIM = 'SLIM',
+  MEDIUM = 'MEDIUM',
+  FULL = 'FULL',
+  OVER_WEIGHT = 'OVER_WEIGHT',
+}
+
+export enum BeautyLevel {
+  NORMAL = 'NORMAL',
+  BEAUTIFUL = 'BEAUTIFUL',
+  VERY_BEAUTIFUL = 'VERY_BEAUTIFUL',
+  SUPER_BEAUTIFUL = 'SUPER_BEAUTIFUL',
+}
+
+export enum SkinColor {
+  WHITE = 'WHITE',
+  LIGHT_TAN = 'LIGHT_TAN',
+  TAN = 'TAN',
+  MEDIUM_BROWN = 'MEDIUM_BROWN',
+  BROWN = 'BROWN',
+  DARK_BROWN = 'DARK_BROWN',
+}
+
+export enum GroomPhysiqueStatus {
+  SLIM = 'SLIM',
+  ATHLETE = 'ATHLETE',
+  MEDIUM = 'MEDIUM',
+  OVER_WEIGHT = 'OVER_WEIGHT',
+}
