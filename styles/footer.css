@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+
+.footer {
+  z-index: 5;
+  width: 100%;
+  background-color: white;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+}
+
+.icons-container {
+  display: flex;
+  gap: 12px;
+}
+
+.icon-container {
+  border: 1px solid #061539;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: start;
+  width: 35%;
+}
+
+.contact-us {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 16px;
+  text-align: start;
+  font-size: 14px;
+}
+
+.divider {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.rules-conditions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 80px;
+}
+
+@media (max-width: 768px) {
+  .footer {
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 16px;
+    padding-inline: 20px;
+    align-items: start;
+    width: 100%;
+  }
+
+  .footer-details {
+    width: 100%;
+  }
+
+  .contact-us {
+    width: 100%;
+    gap: 8px;
+  }
+  .rules-conditions {
+    padding-inline: 20px;
+  }
+}
+
+.rules-conditions-buttons {
+  color: #061539;
+  padding: 0px 8px;
+}
+
+.divider-container {
+  position: relative;
+}
+
+.message-icon-container {
+  background-color: #f8b448;
+  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset-block: -40px;
+  inset-inline-end: 2%;
+}

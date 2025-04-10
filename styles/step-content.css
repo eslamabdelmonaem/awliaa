@@ -1,0 +1,78 @@
+.radio-group-spacing .ant-radio-button-wrapper {
+  border: 1px solid hsl(0, 0%, 69%);
+  margin-inline-end: 14px;
+  margin-block-end: 8px;
+  border-radius: 8px !important;
+  padding-block-start: 8px;
+  height: 48px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.health-radio-button .ant-radio-button-wrapper {
+  min-width: 141px;
+}
+
+.addiction-radio-button .ant-radio-button-wrapper {
+  min-width: 298px;
+}
+.skin-radio-button .ant-radio-button-wrapper {
+  min-width: 90px;
+  background-color: transparent !important;
+}
+
+.ant-radio-button-wrapper .ant-radio-button-checked {
+  background-color: #56a5ff;
+  border-radius: 8px;
+}
+
+.skin-radio-button .ant-radio-button-wrapper .ant-radio-button-checked {
+  border-radius: 8px;
+  border: 3px solid #56a5ff;
+  background-color: transparent !important;
+}
+
+.radio-group-spacing .ant-radio-button-wrapper:not(:first-child)::before {
+  display: none !important;
+}
+
+.ant-radio-group {
+  display: block !important;
+}
+
+.skin-option {
+  border: none;
+}
+
+.skin-option.white {
+  background-color: ##f6ede7 !important;
+  color: #000 !important;
+}
+
+.skin-option.lightWheat {
+  background-color: #f6d8c5 !important;
+  color: #000 !important;
+}
+
+.skin-option.wheat {
+  background-color: #ca8a60 !important;
+  color: #000 !important;
+}
+
+.skin-option.lightBrown {
+  background-color: #91553b !important;
+  color: #fff !important;
+}
+
+.skin-option.brown {
+  background-color: #68463c !important;
+  color: #fff !important;
+}
+
+.skin-option.darkBrown {
+  background-color: #2b2a26 !important;
+  color: #fff !important;
+}

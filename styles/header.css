@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 80px;
+}
+
+.header-title {
+  font-size: 24px;
+  color: #061539;
+  font-weight: bold;
+  margin-inline-end: 32px;
+}
+
+.language-switcher {
+  background-color: white;
+  border: 1px solid black;
+  font-size: 12px;
+  width: 40px;
+  height: 40px;
+}
+
+.user-profile-photo {
+  border-radius: 50%;
+  border: 1px solid #061539;
+}
+
+.user-info-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.register-button {
+  background-color: #061539;
+  min-width: 120px;
+  padding-block-start: 8px;
+  height: 40px;
+  color: #fff;
+}
+
+.register-button:hover {
+  background-color: #4e6f8b !important;
+  color: #fff !important;
+}
+
+@media (max-width: 1098px) {
+  .header {
+    padding: 20px 50px;
+  }
+}
