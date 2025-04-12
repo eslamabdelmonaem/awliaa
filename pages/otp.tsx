@@ -17,7 +17,7 @@ export type OtpForm = {
 export default function OTP() {
   const { t: translate } = useTranslation('common');
   const { otpMutation, userData } = useVerifyOtp();
-  const { setUser } = useAuth();
+  const { setUser, setToken } = useAuth();
   const [form] = useForm();
   const [otp, setOtp] = useState('');
   const [timeLeft, setTimeLeft] = useState(RESEND_INTERVAL);
@@ -39,7 +39,9 @@ export default function OTP() {
   //   };
   useEffect(() => {
     if (otpMutation.isSuccess && userData) {
-      setUser(userData);
+      setUser(userData.user);
+      setToken(userData.token);
+      localStorage.setItem('user_token', userData.token);
     }
   }, [otpMutation.isSuccess, userData, setUser]);
   const formatTime = (seconds: number) => {

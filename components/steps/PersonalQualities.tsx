@@ -1,12 +1,32 @@
-import { Form, Input, Select, Radio } from 'antd';
+import { Form, Input, Select, Radio, FormInstance } from 'antd';
 import { useStepperContext } from '../../contexts/StepperContext';
 import { useTranslation } from 'react-i18next';
 import { CheckboxGroupProps } from 'antd/es/checkbox';
 import { GroomPhysiqueStatus, HealthStatus, SkinColor } from '@component/types/user-details';
+import useAddHealthInfo from '@component/hooks/useAddHealthInfo';
+import { useAuth } from '@component/contexts/AuthContext';
 
-export default function PersonalQualities() {
-  const { updateStepData } = useStepperContext();
+export type UserHealthInfo = {
+  age: number;
+  height: number;
+  weight: number;
+  healthStatus: HealthStatus;
+  physique: GroomPhysiqueStatus;
+  isSmoking: boolean;
+  isAlcohol: boolean;
+  skinColor: SkinColor;
+};
+
+export default function GeneralInformation({ form }: { form: FormInstance }) {
+  const { updateStepData, currentStep, setCurrentStep } = useStepperContext();
+  const { token } = useAuth();
   const { t: translate } = useTranslation('common');
+  const handleSuccess = () => {
+    console.log('Moving to next step:', currentStep + 1);
+    setCurrentStep(currentStep + 1);
+  };
+
+  const { healthInfoMutation } = useAddHealthInfo(handleSuccess, token);
 
   const healthConditionOptions: CheckboxGroupProps<string>['options'] = [
     { label: translate('good'), value: HealthStatus.HEALTHY },
@@ -22,14 +42,14 @@ export default function PersonalQualities() {
     { label: translate('fat'), value: GroomPhysiqueStatus.OVER_WEIGHT },
   ];
 
-  const smokingOptions: CheckboxGroupProps<string>['options'] = [
-    { label: translate('smoker'), value: 'smoker' },
-    { label: translate('non smoker'), value: 'nonSmoker' },
+  const smokingOptions: CheckboxGroupProps<boolean>['options'] = [
+    { label: translate('smoker'), value: true },
+    { label: translate('non smoker'), value: false },
   ];
 
-  const alcoholOptions: CheckboxGroupProps<string>['options'] = [
-    { label: translate('drinking'), value: 'drinking' },
-    { label: translate('not drinking'), value: 'notDrinking' },
+  const alcoholOptions: CheckboxGroupProps<boolean>['options'] = [
+    { label: translate('drinking'), value: true },
+    { label: translate('not drinking'), value: false },
   ];
 
   const skinColorOptions: CheckboxGroupProps<string>['options'] = [
@@ -45,18 +65,30 @@ export default function PersonalQualities() {
     { label: translate('tribal'), value: 'tribal' },
     { label: translate('non tribal'), value: 'nonTribal' },
   ];
-  const onFinish = (values: any) => {
-    updateStepData({ personalInfo: values });
+  const onFinish = (values: UserHealthInfo) => {
+    const userHealthData = {
+      age: values.age,
+      height: values.height,
+      weight: values.weight,
+      healthStatus: values.healthStatus,
+      physique: values.physique,
+      isSmoking: values.isSmoking,
+      isAlcohol: values.isAlcohol,
+      skinColor: values.skinColor,
+    };
+    updateStepData(userHealthData);
+    console.log({ userHealthData });
+    healthInfoMutation.mutateAsync(userHealthData);
   };
 
   return (
-    <Form layout="vertical" className="text-xs form-container">
+    <Form form={form} requiredMark="optional" onFinish={onFinish} layout="vertical" className="text-xs form-container">
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
           className="user-info-select min-w-[195px]"
           label={translate('age')}
           name="age"
-          rules={[{ required: true, message: 'Please select your age!' }]}>
+          rules={[{ required: true, message: translate('please select age') }]}>
           <Select placeholder={translate('choose age')}>
             {Array.from({ length: 150 }, (_, i) => (
               <Select.Option key={i + 1} value={i + 1}>
@@ -81,7 +113,7 @@ export default function PersonalQualities() {
         <Form.Item
           label={translate('weight')}
           name="weight"
-          rules={[{ required: true, message: 'Please select your weight!' }]}
+          rules={[{ required: true, message: translate('please select weight') }]}
           className="user-info-select min-w-[198px]">
           <Select placeholder={translate('choose weight')}>
             {Array.from({ length: 350 }, (_, i) => (
@@ -95,9 +127,8 @@ export default function PersonalQualities() {
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
           initialValue={HealthStatus.HEALTHY}
-          rules={[{ required: true, message: 'Please select option!' }]}
           label={translate('health condition')}
-          name="healthCondition"
+          name="healthStatus"
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
             className="health-radio-button radio-group-spacing"
@@ -109,7 +140,6 @@ export default function PersonalQualities() {
         <Form.Item
           initialValue={GroomPhysiqueStatus.ATHLETE}
           label={translate('physique')}
-          rules={[{ required: true, message: 'Please select option!' }]}
           name="physique"
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
@@ -122,27 +152,25 @@ export default function PersonalQualities() {
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
+          initialValue={false}
           label={translate('smoking')}
-          rules={[{ required: true, message: 'Please select option!' }]}
-          name="smoking"
+          name="isSmoking"
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
             className="addiction-radio-button radio-group-spacing"
             options={smokingOptions}
-            defaultValue="nonSmoker"
             optionType="button"
             buttonStyle="solid"
           />
         </Form.Item>
         <Form.Item
           label={translate('alcohol')}
-          rules={[{ required: true, message: 'Please select option!' }]}
-          name="alcohol"
+          initialValue={false}
+          name="isAlcohol"
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
             className="addiction-radio-button radio-group-spacing"
             options={alcoholOptions}
-            defaultValue="notDrinking"
             optionType="button"
             buttonStyle="solid"
           />
@@ -150,7 +178,6 @@ export default function PersonalQualities() {
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
-          rules={[{ required: true, message: 'Please select option!' }]}
           label={translate('skin color')}
           initialValue={SkinColor.WHITE}
           name="skinColor"
@@ -167,11 +194,7 @@ export default function PersonalQualities() {
             })}
           </Radio.Group>
         </Form.Item>
-        <Form.Item
-          rules={[{ required: true, message: 'Please select option!' }]}
-          label={translate('origin')}
-          name="origin"
-          className="xs:w-[100%] lg:w-[50%]">
+        <Form.Item label={translate('origin')} name="origin" className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
             className="addiction-radio-button radio-group-spacing"
             options={originOptions}

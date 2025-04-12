@@ -46,18 +46,18 @@ export default function AuthContextProvider({ children, SSRUser }: ProviderProps
         .post(`/api/mobile/login`, { ...values })
         .then(async (response) => {
           setAuthModalVisiablity(false);
-          client.defaults.headers.common.Authorization = `Bearer ${response.data.id_token}`;
-          setToken(response.data.id_token);
+          client.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
           setUser(response.data.user as UserType);
           setClientLogin(response.data.user.clientDTO);
           if (response.status === 200 || response.status === 201) {
-            console.log({ response });
+            localStorage.setItem('user_token', response.data.token);
+            setToken(response.data.token);
             router.push('/complete-registration');
           }
         })
         .catch((error) => {
-          if (error.response.data.message.statusCode === 400) {
-            toast.error(translate('login-error'));
+          if (error.response.data.message.statusCode === 400 || 401) {
+            toast.error(translate(error?.response?.data.message));
           }
         })
         .finally(() => {

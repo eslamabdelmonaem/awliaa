@@ -1,8 +1,8 @@
 import { Button } from 'antd';
 import i18n from '../i18n';
 import { useTranslation } from 'react-i18next';
-import Image from 'next/image';
 import Link from 'next/link';
+import { useAuth } from '@component/contexts/AuthContext';
 
 interface IHeaderProps {
   isAuthenticated: boolean;
@@ -10,6 +10,7 @@ interface IHeaderProps {
 
 export default function Header({ isAuthenticated }: IHeaderProps) {
   const { t: translate } = useTranslation('common');
+  const { user } = useAuth();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     localStorage.setItem('current_locale', lng);
@@ -18,21 +19,18 @@ export default function Header({ isAuthenticated }: IHeaderProps) {
     <div className="header">
       <div>
         <span className="header-title">{translate('awliaa')}</span>
-        <Link href="#" className={`${isAuthenticated && 'hidden'}`}>
+        <Link href="#" className={`${isAuthenticated ? 'hidden' : 'home-page-text'}`}>
           {translate('home page')}
         </Link>
       </div>
       <div className="user-info-wrapper">
-        {isAuthenticated ? (
-          <img className="user-profile-photo" src="/assets/icons/avatar-icon.svg" alt="" />
+        {user ? (
+          <img
+            className="user-profile-photo"
+            src={user.imageUrl ? user.imageUrl : '/assets/icons/avatar-icon.svg'}
+            alt=""
+          />
         ) : (
-          // <Image
-          //   className="user-profile-photo"
-          //   src="/assets/icons/avatar-placeholder.svg"
-          //   alt="avatar-image"
-          //   width={40}
-          //   height={40}
-          // />
           <Button type="link" href="/register" className="register-button" shape="round">
             {translate('create account')}
           </Button>

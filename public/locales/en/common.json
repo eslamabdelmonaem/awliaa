@@ -59,8 +59,8 @@
   "create account": "Create an account",
   "sign in": "Sign in",
   "register": "Sign up",
-  "already have account": "Already have an account",
-  "dont have account": "Don't have an account",
+  "already have account": "Already have an account ?",
+  "dont have account": "Don't have an account ?",
   "you are": "You are",
   "groom": "Marriage-seeking",
   "parent": "Parent",
@@ -74,8 +74,15 @@
   "enter password": "Enter password",
   "forgot password": "Forgot password",
   "remember me": "Remember me",
-  "terms and conditions acceptance": "I accept the terms and conditions",
+  "accept": "Accept",
   "confirm mobile": "Confirm phone number",
   "confirm": "Confirm",
-  "MOBILE_ALREADY_EXISTS": "Mobile number already exists"
+  "MOBILE_ALREADY_EXISTS": "Mobile number already exists",
+  "please select country": "Please select country !",
+  "please select your nationality": "Please select your nationality !",
+  "please select city": "Please select city !",
+  "Invalid login name or password!": "Invalid login name or password !",
+  "please select weight": "Please select weight !",
+  "please select height": "Please select height !",
+  "please select age": "Please select age !"
 }

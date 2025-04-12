@@ -4,10 +4,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --direction: rtl;
-  --start: right;
-  --end: left;
-  --text-align: right;
   --header-height: 104px;
   --stepper-height: 217px;
   --footer-height: 343px;
@@ -33,7 +29,6 @@ body {
   color: var(--foreground);
 }
 
-/* RTL Styles */
 html[dir='ltr'] {
   --direction: ltr;
   --start: left;
@@ -44,6 +39,7 @@ html[dir='ltr'] {
 @font-face {
   font-family: 'Alexandria';
   src: url('/public/fonts/Alexandria-Bold.ttf');
+  font-display: swap;
 }
 
 html[dir='rtl'] {
@@ -52,7 +48,6 @@ html[dir='rtl'] {
 
 body {
   font-family: var(--font-family);
-  text-align: right;
 }
 
 [dir='rtl'] .flex-row {
@@ -75,4 +70,25 @@ body {
 [dir='rtl'] .mr-auto {
   margin-left: auto;
   margin-right: initial;
+}
+[dir='ltr'] .flex-row {
+  flex-direction: row;
+}
+
+[dir='ltr'] .text-left {
+  text-align: left;
+}
+
+[dir='ltr'] .text-right {
+  text-align: right;
+}
+
+[dir='ltr'] .ml-auto {
+  margin-left: auto;
+  margin-right: initial;
+}
+
+[dir='ltr'] .mr-auto {
+  margin-right: auto;
+  margin-left: initial;
 }

@@ -1,19 +1,42 @@
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { Button } from 'antd';
+import Form, { FormInstance } from 'antd/es/form';
 import PersonalQualities from './steps/PersonalQualities';
 import GeneralInformation from './steps/GeneralInformation';
 import { useTranslation } from 'react-i18next';
 import TickIcon from '@icons/tick-icon.svg';
 import LeftArrow from '@icons/arrow-left-icon.svg';
+import { useStepperContext } from '@component/contexts/StepperContext';
+import MartialStatus from './steps/MartialStatus';
 
 interface Step {
   id: number;
   title: string;
 }
+type StepRenderer = () => { form?: FormInstance; node: JSX.Element };
 
-const stepComponents: Record<number, () => JSX.Element> = {
-  1: GeneralInformation,
-  2: PersonalQualities,
+const stepComponents: Record<number, StepRenderer> = {
+  1: () => {
+    const [form] = Form.useForm();
+    return {
+      form,
+      node: <GeneralInformation form={form} />,
+    };
+  },
+  2: () => {
+    const [form] = Form.useForm();
+    return {
+      form,
+      node: <PersonalQualities form={form} />,
+    };
+  },
+  3: () => {
+    const [form] = Form.useForm();
+    return {
+      form,
+      node: <MartialStatus form={form} />,
+    };
+  },
 };
 
 export default function Stepper() {
@@ -26,22 +49,37 @@ export default function Stepper() {
     { id: 5, title: translate('religion') },
     { id: 6, title: translate('attachments') },
   ];
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const { currentStep, setCurrentStep } = useStepperContext();
+  const [forms, setForms] = useState<Record<number, FormInstance>>({});
 
-  const handleNext = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep((prev) => prev + 1);
+  const handleNext = async () => {
+    const currentForm = forms[currentStep];
+    try {
+      if (currentForm) {
+        await currentForm.validateFields();
+        currentForm.submit();
+      }
+      if (!stepComponents[currentStep + 1]) {
+        console.warn('No step component exists for the next step.');
+        return;
+      }
+    } catch (error) {
+      console.warn('Validation failed:', error);
     }
   };
 
   const handlePrevious = () => {
     if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
+      setCurrentStep(currentStep - 1);
     }
   };
 
-  const StepComponent = stepComponents[currentStep];
-
+  const { node: StepComponentNode, form } = stepComponents[currentStep]?.() ?? {};
+  useEffect(() => {
+    if (form) {
+      setForms((prev) => ({ ...prev, [currentStep]: form }));
+    }
+  }, [form, currentStep]);
   return (
     <>
       <div className="stepper">
@@ -65,7 +103,7 @@ export default function Stepper() {
         </div>
       </div>
       <div className="stepper-content">
-        <div className="step-component"> {StepComponent && <StepComponent />} </div>
+        <div className="step-component"> {StepComponentNode}</div>
         <div className="flex justify-between">
           <Button
             icon={<LeftArrow />}
@@ -73,7 +111,11 @@ export default function Stepper() {
             className={`${currentStep === 1 ? '!hidden' : 'back-button'}`}>
             {translate('back')}
           </Button>
-          <Button onClick={handleNext} disabled={currentStep === steps.length} className="save-button">
+          <Button
+            onClick={handleNext}
+            htmlType="submit"
+            disabled={currentStep === steps.length}
+            className="save-button">
             {translate('save and continue')}
           </Button>
         </div>

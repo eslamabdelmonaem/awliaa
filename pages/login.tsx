@@ -46,7 +46,13 @@ export default function Login() {
       footerText={translate('dont have account')}
       footerLinkText={translate('sign up')}
       footerLinkHref="/register">
-      <Form form={form} name="login" onFinish={onFinish} layout="vertical" className="space-y-6">
+      <Form
+        form={form}
+        name="login"
+        requiredMark="optional"
+        onFinish={onFinish}
+        layout="vertical"
+        className="space-y-6">
         <Form.Item
           initialValue={UserRole.GROOM}
           rules={[{ required: true }]}
@@ -62,7 +68,10 @@ export default function Login() {
           />
         </Form.Item>
 
-        <Form.Item name="mobile" rules={[{ required: true, message: translate('please enter phone number') }]}>
+        <Form.Item
+          className={i18n.language === 'ar' ? 'rtl-phone-input' : ''}
+          name="mobile"
+          rules={[{ required: true, message: translate('please enter phone number') }]}>
           <PhoneInput
             country="eg"
             enableSearch
@@ -71,7 +80,7 @@ export default function Login() {
             }}
             searchPlaceholder={translate('search') || 'search'}
             containerStyle={{
-              direction: 'ltr',
+              direction: i18n?.language === 'ar' ? 'rtl' : 'ltr',
               height: '50px',
             }}
             dropdownStyle={{
@@ -81,9 +90,10 @@ export default function Login() {
               position: 'absolute',
             }}
             inputStyle={{
+              textAlign: i18n?.language === 'ar' ? 'right' : 'left',
               height: '100%',
               width: '100%',
-              padding: '0px 50px',
+              paddingInline: '60px',
             }}
           />
         </Form.Item>
@@ -97,7 +107,7 @@ export default function Login() {
           </Form.Item>
 
           <Form.Item name="remember" valuePropName="checked">
-            <Link href="#" className="text-black">
+            <Link href="#" className="auth-links">
               {translate('forgot password')}
             </Link>
           </Form.Item>
@@ -105,7 +115,7 @@ export default function Login() {
 
         <Form.Item>
           <Button htmlType="submit" className="form-button">
-            {translate('sign in')}{' '}
+            {translate('sign in')}
           </Button>
         </Form.Item>
       </Form>

@@ -13,9 +13,13 @@
     0 var(--split-position);
   background-repeat: no-repeat;
   position: fixed;
+}
+
+.auth-content {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: calc(100vh - 60px);
 }
 
 .auth-card {
@@ -35,6 +39,8 @@
 .login-type .ant-radio-button-wrapper {
   width: 50%;
   height: 48px;
+  color: #6d6d6d;
+  font-weight: 500;
   padding-block-start: 8px;
   text-align: center;
   border: 1px solid #56a5ff;
@@ -48,6 +54,14 @@
 
 .form-input-field {
   height: 48px;
+}
+
+.form-input-field::placeholder {
+  font-weight: 600;
+}
+
+.auth-links {
+  color: #090914;
 }
 
 .password-wrapper {
@@ -70,4 +84,22 @@
   gap: 20px;
   align-items: center;
   margin-block-end: 40px;
+}
+
+.rtl-phone-input .react-tel-input .selected-flag {
+  width: 45px;
+  background-color: transparent !important;
+  left: auto;
+  right: 10px;
+}
+
+.rtl-phone-input .react-tel-input .selected-flag .arrow {
+  left: auto;
+  right: 22px;
+}
+
+.rtl-phone-input .react-tel-input .country-list {
+  text-align: right;
+  right: 0;
+  left: auto;
 }

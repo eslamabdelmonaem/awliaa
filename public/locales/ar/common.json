@@ -58,7 +58,7 @@
   "home page": "الصفحة الرئيسية",
   "create account": "إنشاء حساب",
   "sign in": "تسجيل دخول",
-  "sign up": "انشاء حساب",
+  "sign up": "إنشاء حساب",
   "already have account": "هل لديك حساب؟",
   "dont have account": "ليس لديك حساب؟",
   "you are": "انت تكون",
@@ -74,8 +74,15 @@
   "enter password": "ادخل كلمة المرور",
   "forgot password": " نسيت كلمة المرور",
   "remember me": "تذكرني",
-  "terms and conditions acceptance": "الموافقة علي الشروط والاحكام",
+  "accept": "الموافقة علي",
   "confirm mobile": "تاكيد رقم الجوال",
   "confirm": "تاكيد",
-  "MOBILE_ALREADY_EXISTS": "رقم الجوال مستخدم بالفعل"
+  "MOBILE_ALREADY_EXISTS": "رقم الجوال مستخدم بالفعل",
+  "please select country": "الرجاء تحديد البلد",
+  "please select your nationality": "الرجاء تحديد الجنسية",
+  "please select city": "الرجاء تحديد المدينة",
+  "Invalid login name or password!": "اسم المستخدم او كلمة المرور غير صحيحة",
+  "please select weight": "الرجاء تحديد الوزن",
+  "please select height": "الرجاء تحديد الطول",
+  "please select age": "الرجاء تحديد العمر"
 }

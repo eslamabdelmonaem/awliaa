@@ -15,9 +15,9 @@ export default function AuthCard({ title, children, footerText, footerLinkText, 
     <div className="auth-card">
       <h2 className="card-title">{title}</h2>
       {children}
-      <div className="text-center text-sm">
-        <span className="text-gray-600">{footerText}</span>{' '}
-        <Link href={footerLinkHref || '#'} className="font-medium text-blue-600 hover:text-blue-500">
+      <div className="text-center">
+        <span className="text-[#71717A]">{footerText}</span>{' '}
+        <Link href={footerLinkHref || '#'} className="auth-links font-bold">
           {footerLinkText}
         </Link>
       </div>

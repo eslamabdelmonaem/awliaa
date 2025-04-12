@@ -47,7 +47,13 @@ export default function Register() {
       footerText={translate('already have account')}
       footerLinkText={translate('sign in')}
       footerLinkHref="/login">
-      <Form form={form} name="register" onFinish={onFinish} layout="vertical" className="space-y-6">
+      <Form
+        requiredMark="optional"
+        form={form}
+        name="register"
+        onFinish={onFinish}
+        layout="vertical"
+        className="space-y-6">
         <Form.Item
           initialValue={UserRole.GROOM}
           rules={[{ required: true }]}
@@ -67,7 +73,10 @@ export default function Register() {
           <Input className="form-input-field" placeholder={translate('enter username')} />
         </Form.Item>
 
-        <Form.Item name="mobile" rules={[{ required: true, message: translate('please enter phone number') }]}>
+        <Form.Item
+          className={i18n.language === 'ar' ? 'rtl-phone-input' : ''}
+          name="mobile"
+          rules={[{ required: true, message: translate('please enter phone number') }]}>
           <PhoneInput
             country="eg"
             enableSearch
@@ -76,7 +85,7 @@ export default function Register() {
             }}
             searchPlaceholder={translate('search') || 'search'}
             containerStyle={{
-              direction: 'ltr',
+              direction: i18n?.language === 'ar' ? 'rtl' : 'ltr',
               height: '50px',
             }}
             dropdownStyle={{
@@ -86,9 +95,10 @@ export default function Register() {
               position: 'absolute',
             }}
             inputStyle={{
+              textAlign: i18n?.language === 'ar' ? 'right' : 'left',
               height: '100%',
               width: '100%',
-              padding: '0px 50px',
+              paddingInline: '60px',
             }}
           />
         </Form.Item>
@@ -96,16 +106,17 @@ export default function Register() {
           <Input.Password className="form-input-field" placeholder={translate('enter password')} />
         </Form.Item>
         <Form.Item
-          name="remember"
+          name="termsAndConditions"
           rules={[{ required: true, message: translate('please select option') }]}
           valuePropName="checked">
           <Checkbox>
-            <Link href="#">{translate('terms and conditions acceptance')}</Link>
+            <span className="text-[#6D6D6D] font-medium">{translate('accept')}</span>{' '}
+            <Link href="#">{translate('terms and conditions')}</Link>
           </Checkbox>
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit" className="form-button">
-            {translate('sign in')}{' '}
+            {translate('sign up')}{' '}
           </Button>
         </Form.Item>
       </Form>

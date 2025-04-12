@@ -5,6 +5,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 30px 80px;
+  z-index: 50;
+}
+.home-page-text {
+  font-size: 14px;
 }
 
 .header-title {
@@ -20,6 +24,7 @@
   font-size: 12px;
   width: 40px;
   height: 40px;
+  font-weight: 700;
 }
 
 .user-profile-photo {
@@ -52,5 +57,15 @@
 @media (max-width: 1098px) {
   .header {
     padding: 20px 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-title {
+    text-align: center;
+    margin-inline-end: 12px;
+  }
+  .header {
+    padding: 20px 30px;
   }
 }

@@ -47,32 +47,32 @@
   border: none;
 }
 
-.skin-option.white {
-  background-color: ##f6ede7 !important;
+.skin-option.WHITE {
+  background-color: #f6ede7 !important;
   color: #000 !important;
 }
 
-.skin-option.lightWheat {
+.skin-option.LIGHT_TAN {
   background-color: #f6d8c5 !important;
   color: #000 !important;
 }
 
-.skin-option.wheat {
+.skin-option.TAN {
   background-color: #ca8a60 !important;
   color: #000 !important;
 }
 
-.skin-option.lightBrown {
+.skin-option.MEDIUM_BROWN {
   background-color: #91553b !important;
   color: #fff !important;
 }
 
-.skin-option.brown {
+.skin-option.BROWN {
   background-color: #68463c !important;
   color: #fff !important;
 }
 
-.skin-option.darkBrown {
+.skin-option.DARK_BROWN {
   background-color: #2b2a26 !important;
   color: #fff !important;
 }
