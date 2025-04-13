@@ -18,7 +18,7 @@ export type UserType = {
   activationKey?: string;
   resetKey?: string;
   resetDate?: string;
-  authorities?: string[];
+  authorities?: AuthoritiesType[];
   createdBy?: string;
   createdDate?: string;
   lastModifiedBy?: string;
@@ -29,3 +29,7 @@ export enum UserRole {
   PARENT = 'ROLE_PARENT',
   GROOM = 'ROLE_GROOM',
 }
+
+export type AuthoritiesType = {
+  name: string;
+};

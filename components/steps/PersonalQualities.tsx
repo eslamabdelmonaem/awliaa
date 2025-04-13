@@ -2,9 +2,11 @@ import { Form, Input, Select, Radio, FormInstance } from 'antd';
 import { useStepperContext } from '../../contexts/StepperContext';
 import { useTranslation } from 'react-i18next';
 import { CheckboxGroupProps } from 'antd/es/checkbox';
-import { GroomPhysiqueStatus, HealthStatus, SkinColor } from '@component/types/user-details';
-import useAddHealthInfo from '@component/hooks/useAddHealthInfo';
+import { BeautyLevel, GroomPhysiqueStatus, HealthStatus, SkinColor } from '@component/types/user-details';
+import useAddGroomHealthInfo from '@component/hooks/useAddGroomHealthInfo';
 import { useAuth } from '@component/contexts/AuthContext';
+import useAddParentHealthInfo from '@component/hooks/useAddParentHealthInfo';
+import { UserRole } from '@component/types/user';
 
 export type UserHealthInfo = {
   age: number;
@@ -15,24 +17,32 @@ export type UserHealthInfo = {
   isSmoking: boolean;
   isAlcohol: boolean;
   skinColor: SkinColor;
+  beautyLevel?: BeautyLevel;
 };
 
 export default function GeneralInformation({ form }: { form: FormInstance }) {
   const { updateStepData, currentStep, setCurrentStep } = useStepperContext();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const { t: translate } = useTranslation('common');
   const handleSuccess = () => {
-    console.log('Moving to next step:', currentStep + 1);
     setCurrentStep(currentStep + 1);
   };
 
-  const { healthInfoMutation } = useAddHealthInfo(handleSuccess, token);
+  const { groomHealthInfoMutation } = useAddGroomHealthInfo(handleSuccess, token);
+  const { parentHealthInfoMutation } = useAddParentHealthInfo(handleSuccess, token);
 
   const healthConditionOptions: CheckboxGroupProps<string>['options'] = [
     { label: translate('good'), value: HealthStatus.HEALTHY },
     { label: translate('mild disability'), value: HealthStatus.MILD_DISABILITY },
     { label: translate('chronic disease'), value: HealthStatus.CHRONIC_DISEASE },
     { label: translate('disabled'), value: HealthStatus.PEOPLE_OF_DETERMINATION },
+  ];
+
+  const beautyLevelOptions: CheckboxGroupProps<string>['options'] = [
+    { label: translate('normal'), value: BeautyLevel.NORMAL },
+    { label: translate('beautiful'), value: BeautyLevel.BEAUTIFUL },
+    { label: translate('very beautiful'), value: BeautyLevel.VERY_BEAUTIFUL },
+    { label: translate('super beautiful'), value: BeautyLevel.SUPER_BEAUTIFUL },
   ];
 
   const physiqueOptions: CheckboxGroupProps<string>['options'] = [
@@ -65,8 +75,8 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
     { label: translate('tribal'), value: 'tribal' },
     { label: translate('non tribal'), value: 'nonTribal' },
   ];
-  const onFinish = (values: UserHealthInfo) => {
-    const userHealthData = {
+  const onFinish = async (values: UserHealthInfo) => {
+    const baseData = {
       age: values.age,
       height: values.height,
       weight: values.weight,
@@ -76,53 +86,78 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       isAlcohol: values.isAlcohol,
       skinColor: values.skinColor,
     };
-    updateStepData(userHealthData);
-    console.log({ userHealthData });
-    healthInfoMutation.mutateAsync(userHealthData);
+    if (user?.authorities?.some((auth) => auth.name === UserRole.GROOM)) {
+      updateStepData(baseData);
+      await groomHealthInfoMutation.mutateAsync(baseData);
+    } else {
+      const extendedData = {
+        ...baseData,
+        beautyLevel: values.beautyLevel,
+      };
+      updateStepData(extendedData);
+      await parentHealthInfoMutation.mutateAsync(extendedData);
+    }
   };
 
   return (
-    <Form form={form} requiredMark="optional" onFinish={onFinish} layout="vertical" className="text-xs form-container">
+    <Form form={form} requiredMark={false} onFinish={onFinish} layout="vertical" className="text-xs form-container">
       <div className="form-item-wrapper w-[100%]">
-        <Form.Item
-          className="user-info-select min-w-[195px]"
-          label={translate('age')}
-          name="age"
-          rules={[{ required: true, message: translate('please select age') }]}>
-          <Select placeholder={translate('choose age')}>
-            {Array.from({ length: 150 }, (_, i) => (
-              <Select.Option key={i + 1} value={i + 1}>
-                {i + 1}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label={translate('height')}
-          name="height"
-          rules={[{ required: true, message: 'Please select your height!' }]}
-          className="user-info-select min-w-[198px]">
-          <Select placeholder={translate('choose height')}>
-            {Array.from({ length: 250 }, (_, i) => (
-              <Select.Option key={i + 1} value={i + 1}>
-                {i + 1}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label={translate('weight')}
-          name="weight"
-          rules={[{ required: true, message: translate('please select weight') }]}
-          className="user-info-select min-w-[198px]">
-          <Select placeholder={translate('choose weight')}>
-            {Array.from({ length: 350 }, (_, i) => (
-              <Select.Option key={i + 1} value={i + 1}>
-                {i + 1}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
+        <div className="w-[50%] flex gap-x-4">
+          <Form.Item
+            className="user-info-select w-[15%] min-w-[190px]"
+            label={translate('age')}
+            name="age"
+            rules={[{ required: true, message: translate('please select age') }]}>
+            <Select placeholder={translate('choose age')}>
+              {Array.from({ length: 150 }, (_, i) => (
+                <Select.Option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label={translate('height')}
+            name="height"
+            rules={[{ required: true, message: translate('please select height') }]}
+            className="user-info-select w-[15%] min-w-[190px]">
+            <Select placeholder={translate('choose height')}>
+              {Array.from({ length: 250 }, (_, i) => (
+                <Select.Option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label={translate('weight')}
+            name="weight"
+            rules={[{ required: true, message: translate('please select weight') }]}
+            className="user-info-select w-[15%] min-w-[190px]">
+            <Select placeholder={translate('choose weight')}>
+              {Array.from({ length: 350 }, (_, i) => (
+                <Select.Option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+        {user?.authorities?.some((auth) => auth.name === UserRole.PARENT) && (
+          <Form.Item
+            initialValue={BeautyLevel.BEAUTIFUL}
+            label={translate('beauty level')}
+            name="beautyLevel"
+            rules={[{ required: true, message: translate('please select beauty level') }]}
+            className="xs:w-[100%] lg:w-[50%]">
+            <Radio.Group
+              className="health-radio-button radio-group-spacing"
+              options={beautyLevelOptions}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </Form.Item>
+        )}
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item

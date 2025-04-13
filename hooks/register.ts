@@ -23,13 +23,13 @@ export default function useStoreUser() {
         if (token) {
           localStorage.setItem('otp_token', token);
         }
-        toast.success('registered successfully');
+        toast.success(translate('registered successfully'));
         setStoreResponse(response);
         router.push('/otp');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setStoreError(error.message);
+        setStoreError(error?.response?.data.message);
         toast.error(translate(error?.response?.data.message));
       }
     } finally {

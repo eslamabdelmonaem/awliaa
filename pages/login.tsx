@@ -69,7 +69,7 @@ export default function Login() {
         </Form.Item>
 
         <Form.Item
-          className={i18n.language === 'ar' ? 'rtl-phone-input' : ''}
+          className={i18n.language === 'ar' ? 'rtl-phone-input' : 'ltr-phone-input'}
           name="mobile"
           rules={[{ required: true, message: translate('please enter phone number') }]}>
           <PhoneInput

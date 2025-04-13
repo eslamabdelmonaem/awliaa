@@ -93,9 +93,19 @@
   right: 10px;
 }
 
+.ltr-phone-input .react-tel-input .selected-flag {
+  width: 45px;
+  background-color: transparent !important;
+}
+
 .rtl-phone-input .react-tel-input .selected-flag .arrow {
   left: auto;
   right: 22px;
+}
+
+.rtl-phone-input .react-tel-input .selected-flag.open .arrow,
+.ltr-phone-input .react-tel-input .selected-flag.open .arrow {
+  transform: rotate(180deg);
 }
 
 .rtl-phone-input .react-tel-input .country-list {

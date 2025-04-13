@@ -74,7 +74,7 @@ export default function Register() {
         </Form.Item>
 
         <Form.Item
-          className={i18n.language === 'ar' ? 'rtl-phone-input' : ''}
+          className={i18n.language === 'ar' ? 'rtl-phone-input' : 'ltr-phone-input'}
           name="mobile"
           rules={[{ required: true, message: translate('please enter phone number') }]}>
           <PhoneInput
@@ -111,7 +111,9 @@ export default function Register() {
           valuePropName="checked">
           <Checkbox>
             <span className="text-[#6D6D6D] font-medium">{translate('accept')}</span>{' '}
-            <Link href="#">{translate('terms and conditions')}</Link>
+            <Link href="#" className="auth-links font-bold">
+              {translate('terms and conditions')}
+            </Link>
           </Checkbox>
         </Form.Item>
         <Form.Item>
