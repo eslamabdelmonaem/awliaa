@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { useAuth } from './AuthContext';
 
 interface StepperContextType {
   currentStep: number;
@@ -10,8 +11,9 @@ interface StepperContextType {
 const StepperContext = createContext<StepperContextType | undefined>(undefined);
 
 export function StepperProvider({ children }: { children: ReactNode }) {
-  const [currentStep, setCurrentStep] = useState(1);
   const [stepData, setStepData] = useState<Record<string, any>>({});
+  const { user } = useAuth();
+  const [currentStep, setCurrentStep] = useState(user?.currentStep ?? 1);
 
   const updateStepData = (data: Record<string, any>) => {
     setStepData((prev) => ({ ...prev, ...data }));
