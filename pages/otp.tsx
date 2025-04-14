@@ -53,8 +53,16 @@ export default function OTP() {
   const onFinish = async (values: OtpForm) => {
     otpMutation.mutate(values.otp);
   };
+
+  const ResendButton = () => {
+    return (
+      <Button type="link" onClick={() => setTimeLeft(RESEND_INTERVAL)}>
+        <span className="text-[#090914] text-lg font-semibold"> {translate('resend')} </span>
+      </Button>
+    );
+  };
   return (
-    <AuthCard footerText={formatTime(timeLeft)}>
+    <AuthCard footerText={timeLeft === 0 ? formatTime(timeLeft) : <ResendButton />}>
       <Form form={form} name="login" onFinish={onFinish} layout="vertical" className="space-y-6">
         <h2 className="confirm-mobile-header">
           <Button type="link" href="/register" icon={<BackButton />} /> {translate('confirm mobile')}

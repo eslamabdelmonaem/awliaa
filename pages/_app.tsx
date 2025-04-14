@@ -43,6 +43,7 @@ export default function App({ Component, pageProps, token, SSRUser }: AppPropsWi
       <Head>
         <title>Awliaa</title>
         <link rel="icon" href={'/assets/icons/app-icon.svg'} type="image/x-icon" />
+        <link rel="stylesheet" href="/css/react-phone-number-input/style.css" />
       </Head>
       <ToastContainer />
       <AuthContextProvider SSRUser={SSRUser}>

@@ -2,7 +2,13 @@ import { Form, Input, Select, Radio, FormInstance } from 'antd';
 import { useStepperContext } from '../../contexts/StepperContext';
 import { useTranslation } from 'react-i18next';
 import { CheckboxGroupProps } from 'antd/es/checkbox';
-import { BeautyLevel, GroomPhysiqueStatus, HealthStatus, SkinColor } from '@component/types/user-details';
+import {
+  BeautyLevel,
+  GroomPhysiqueStatus,
+  HealthStatus,
+  PhysiqueStatus,
+  SkinColor,
+} from '@component/types/user-details';
 import useAddGroomHealthInfo from '@component/hooks/useAddGroomHealthInfo';
 import { useAuth } from '@component/contexts/AuthContext';
 import useAddParentHealthInfo from '@component/hooks/useAddParentHealthInfo';
@@ -13,9 +19,9 @@ export type UserHealthInfo = {
   height: number;
   weight: number;
   healthStatus: HealthStatus;
-  physique: GroomPhysiqueStatus;
+  physique: GroomPhysiqueStatus | PhysiqueStatus;
   isSmoking: boolean;
-  isAlcohol: boolean;
+  isAlchohol: boolean;
   skinColor: SkinColor;
   beautyLevel?: BeautyLevel;
 };
@@ -45,11 +51,19 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
     { label: translate('super beautiful'), value: BeautyLevel.SUPER_BEAUTIFUL },
   ];
 
-  const physiqueOptions: CheckboxGroupProps<string>['options'] = [
+  const groomPhysiqueOptions: CheckboxGroupProps<string>['options'] = [
     { label: translate('thin'), value: GroomPhysiqueStatus.SLIM },
     { label: translate('fit'), value: GroomPhysiqueStatus.ATHLETE },
     { label: translate('medium'), value: GroomPhysiqueStatus.MEDIUM },
     { label: translate('fat'), value: GroomPhysiqueStatus.OVER_WEIGHT },
+  ];
+
+  const physiqueOptions: CheckboxGroupProps<string>['options'] = [
+    { label: translate('very slim'), value: PhysiqueStatus.VERY_SLIM },
+    { label: translate('feminine slim'), value: PhysiqueStatus.SLIM },
+    { label: translate('feminine medium'), value: PhysiqueStatus.MEDIUM },
+    { label: translate('feminine full'), value: PhysiqueStatus.FULL },
+    { label: translate('feminine overweight'), value: PhysiqueStatus.OVER_WEIGHT },
   ];
 
   const smokingOptions: CheckboxGroupProps<boolean>['options'] = [
@@ -83,7 +97,7 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       healthStatus: values.healthStatus,
       physique: values.physique,
       isSmoking: values.isSmoking,
-      isAlcohol: values.isAlcohol,
+      isAlchohol: values.isAlchohol,
       skinColor: values.skinColor,
     };
     if (user?.authorities?.some((auth) => auth.name === UserRole.GROOM)) {
@@ -100,7 +114,20 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
   };
 
   return (
-    <Form form={form} requiredMark={false} onFinish={onFinish} layout="vertical" className="text-xs form-container">
+    <Form
+      initialValues={{
+        age: user?.age,
+        height: user?.height,
+        weight: user?.weight,
+        isSmoking: user?.isSmoking,
+        isAlchohol: user?.isAlchohol,
+        skinColor: user?.skinColor,
+      }}
+      form={form}
+      requiredMark={false}
+      onFinish={onFinish}
+      layout="vertical"
+      className="text-xs form-container">
       <div className="form-item-wrapper w-[100%]">
         <div className="w-[50%] flex gap-x-4">
           <Form.Item
@@ -172,18 +199,33 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
             buttonStyle="solid"
           />
         </Form.Item>
-        <Form.Item
-          initialValue={GroomPhysiqueStatus.ATHLETE}
-          label={translate('physique')}
-          name="physique"
-          className="xs:w-[100%] lg:w-[50%]">
-          <Radio.Group
-            className="health-radio-button radio-group-spacing"
-            options={physiqueOptions}
-            optionType="button"
-            buttonStyle="solid"
-          />
-        </Form.Item>
+        {user?.authorities?.some((auth) => auth.name === UserRole.GROOM) ? (
+          <Form.Item
+            initialValue={GroomPhysiqueStatus.ATHLETE}
+            label={translate('physique')}
+            name="physique"
+            className="xs:w-[100%] lg:w-[50%]">
+            <Radio.Group
+              className="health-radio-button radio-group-spacing"
+              options={groomPhysiqueOptions}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </Form.Item>
+        ) : (
+          <Form.Item
+            initialValue={PhysiqueStatus.MEDIUM}
+            label={translate('physique')}
+            name="physique"
+            className="xs:w-[100%] lg:w-[50%]">
+            <Radio.Group
+              className="parent-health-radio-button radio-group-spacing"
+              options={physiqueOptions}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </Form.Item>
+        )}
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
@@ -201,7 +243,7 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
         <Form.Item
           label={translate('alcohol')}
           initialValue={false}
-          name="isAlcohol"
+          name="isAlchohol"
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
             className="addiction-radio-button radio-group-spacing"

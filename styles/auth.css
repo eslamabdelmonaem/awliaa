@@ -113,3 +113,25 @@
   right: 0;
   left: auto;
 }
+
+.phone-input-form {
+  border: 1px solid #d9d9d9;
+  padding-inline: 10px;
+  height: 50px;
+  border-radius: 4px;
+}
+
+.phone-input .PhoneInputCountry .PhoneInputCountrySelectArrow {
+  margin-inline-start: 10px;
+}
+
+.phone-input .PhoneInputInput {
+  outline: none;
+  border: none;
+  margin-bottom: 12px;
+  padding-block-start: 12px;
+}
+
+.phone-input-rtl .PhoneInputInput {
+  text-align: right;
+}

@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface AuthCardProps {
   title?: string;
   children: ReactNode;
-  footerText?: string;
+  footerText?: string | JSX.Element;
   footerLinkText?: string;
   footerLinkHref?: string;
 }

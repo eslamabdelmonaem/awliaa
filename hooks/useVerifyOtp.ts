@@ -27,7 +27,7 @@ export default function useVerifyOtp() {
     mutationFn: Otp,
     mutationKey: ['otp-verification'],
     onError: (error: any) => {
-      toast.error('error in otp verification');
+      toast.error(error?.response?.data.message);
       console.error('Mutation error:', error);
     },
     onSuccess: () => {

@@ -2,8 +2,9 @@ import { Form, Input, Button, Checkbox, Radio, RadioChangeEvent } from 'antd';
 import { useTranslation } from 'react-i18next';
 import AuthCard from '../components/AuthCard';
 import { CheckboxGroupProps } from 'antd/es/checkbox';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import { E164Number } from 'libphonenumber-js';
 import { useForm } from 'antd/es/form/Form';
 import Link from 'next/link';
 import { UserRole } from '@component/types/user';
@@ -11,12 +12,17 @@ import { useState } from 'react';
 import { useAuth } from '@component/contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { UserTypeDto } from './register';
+import { isValidPhoneNumber } from 'react-phone-number-input';
+import ar from 'react-phone-number-input/locale/ar';
+import en from 'react-phone-number-input/locale/en';
+import flags from 'react-phone-number-input/flags';
 
 export default function Login() {
   const { t: translate, i18n } = useTranslation('common');
   const { login } = useAuth();
   const [form] = useForm();
   const [authority, setAuthority] = useState<UserRole>(UserRole.GROOM);
+  const [phoneValue, setPhoneValue] = useState<E164Number | undefined>();
   const loginOptions: CheckboxGroupProps<string>['options'] = [
     { label: translate('groom'), value: UserRole.GROOM },
     { label: translate('parent'), value: UserRole.PARENT },
@@ -35,8 +41,8 @@ export default function Login() {
           },
           form,
         );
-      } catch (error) {
-        toast.error('error while logging');
+      } catch (error: any) {
+        toast.error(error?.response?.data.message);
       }
     }
   };
@@ -69,31 +75,27 @@ export default function Login() {
         </Form.Item>
 
         <Form.Item
-          className={i18n.language === 'ar' ? 'rtl-phone-input' : 'ltr-phone-input'}
-          name="mobile"
-          rules={[{ required: true, message: translate('please enter phone number') }]}>
+          rules={[
+            {
+              validator: (_, value) => {
+                if (!value) return Promise.reject(new Error(translate('please enter phone number')));
+                return isValidPhoneNumber(value)
+                  ? Promise.resolve()
+                  : Promise.reject(new Error(translate('enter valid phone number')));
+              },
+            },
+          ]}
+          className="phone-input-form"
+          name="mobile">
           <PhoneInput
-            country="eg"
-            enableSearch
-            searchStyle={{
-              direction: i18n?.language === 'ar' ? 'rtl' : 'ltr',
-            }}
-            searchPlaceholder={translate('search') || 'search'}
-            containerStyle={{
-              direction: i18n?.language === 'ar' ? 'rtl' : 'ltr',
-              height: '50px',
-            }}
-            dropdownStyle={{
-              direction: i18n?.language === 'ar' ? 'rtl' : 'ltr',
-              padding: '0 5px 5px 5px',
-              zIndex: '50',
-              position: 'absolute',
-            }}
-            inputStyle={{
-              textAlign: i18n?.language === 'ar' ? 'right' : 'left',
-              height: '100%',
-              width: '100%',
-              paddingInline: '60px',
+            className={`phone-input ${i18n.language === 'ar' ? 'phone-input-rtl ' : ''}`}
+            international
+            defaultCountry="EG"
+            flags={flags}
+            labels={i18n.language === 'ar' ? ar : en}
+            value={phoneValue}
+            onChange={(val) => {
+              setPhoneValue(val);
             }}
           />
         </Form.Item>

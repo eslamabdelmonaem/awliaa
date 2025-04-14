@@ -12,7 +12,7 @@ import { RelationStatus } from '@component/types/user-details';
 export type UserResidence = {
   girlName?: string;
   relationship?: RelationStatus;
-  note?: string;
+  relationshipNote?: string;
   nationality: string;
   country: string;
   city: string;
@@ -51,14 +51,27 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
         ...baseData,
         name: values.girlName,
         relationship: values.relationship,
-        note: values.note,
+        relationshipNote: values.relationshipNote,
       };
       updateStepData(extendedData);
       await parentPersonalInfoMutation.mutateAsync(extendedData);
     }
   };
   return (
-    <Form onFinish={onFinish} requiredMark={false} form={form} layout="vertical" className="form-container">
+    <Form
+      initialValues={{
+        girlName: null,
+        relationship: null,
+        relationshipNote: null,
+        nationality: user?.nationality,
+        country: user?.country,
+        city: user?.city,
+      }}
+      onFinish={onFinish}
+      requiredMark={false}
+      form={form}
+      layout="vertical"
+      className="form-container">
       {user?.authorities?.some((auth) => auth.name === UserRole.PARENT) && (
         <div className="form-item-wrapper w-[100%]">
           <Form.Item
@@ -85,7 +98,7 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
             <Form.Item
               label={translate('enter relationship')}
               className="w-[25%]"
-              name="note"
+              name="relationshipNote"
               rules={[{ required: true, message: translate('please specify other relation') }]}>
               <Input className="user-info-input" placeholder={translate('enter relationship')} />
             </Form.Item>

@@ -16,6 +16,10 @@
   min-width: 141px;
 }
 
+.parent-health-radio-button .ant-radio-button-wrapper {
+  min-width: 110px;
+}
+
 .addiction-radio-button .ant-radio-button-wrapper {
   min-width: 298px;
 }

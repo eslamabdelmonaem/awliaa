@@ -1,3 +1,5 @@
+import { PhysiqueStatus, RelationStatus, SkinColor } from './user-details';
+
 export type UserType = {
   id?: number;
   uid?: string;
@@ -23,6 +25,19 @@ export type UserType = {
   createdDate?: string;
   lastModifiedBy?: string;
   lastModifiedDate?: string;
+  nationality?: string;
+  country?: string;
+  city?: string;
+  girlName?: string;
+  relationship?: RelationStatus;
+  relationshipNote?: string;
+  age?: number;
+  height?: number;
+  weight?: number;
+  physique?: PhysiqueStatus;
+  isSmoking?: boolean;
+  isAlchohol?: boolean;
+  skinColor?: SkinColor;
 };
 
 export enum UserRole {
