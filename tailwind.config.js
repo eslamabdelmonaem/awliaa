@@ -18,10 +18,11 @@ module.exports = {
     },
 
     extend: {
+      fontFamily: {
+        alexandria: ['Alexandria', 'sans'],
+      },
       colors: {
-        primary_bright: {
-          DEFAULT: '#0B317C',
-        },
+        primary_bright: '#0B317C',
         light_gray: {
           DEFAULT: '#E7E7E7',
           100: '#6D6D6D',
@@ -44,5 +45,5 @@ module.exports = {
       padding: ['responsive'],
     },
   },
-  plugins: [require('tailwindcss-rtl')],
+  plugins: [],
 };

@@ -19,7 +19,7 @@
 }
 
 .icon-container {
-  border: 1px solid #061539;
+  border: 1px solid var(--primary-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +55,8 @@
 }
 
 @media (max-width: 768px) {
-  .footer {
+  .icons-container {
+    flex-wrap: wrap;
   }
 
   .footer-container {
@@ -80,7 +81,7 @@
 }
 
 .rules-conditions-buttons {
-  color: #061539;
+  color: var(--primary-color);
   padding: 0px 8px;
 }
 

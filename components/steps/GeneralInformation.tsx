@@ -67,6 +67,7 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
         country: user?.country,
         city: user?.city,
       }}
+      id="generalInformationForm"
       onFinish={onFinish}
       requiredMark={false}
       form={form}
@@ -75,20 +76,30 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       {user?.authorities?.some((auth) => auth.name === UserRole.PARENT) && (
         <div className="form-item-wrapper w-[100%]">
           <Form.Item
-            className="user-info-input w-[50%]"
-            label={translate('girl name')}
+            id="girlName"
+            className=" xs:[w-100%] md:w-[50%]"
+            label={<span className="font-bold">{translate('girl name')}</span>}
             name="girlName"
             rules={[{ required: true, message: translate('please enter girl name') }]}>
-            <Input className="user-info-input" placeholder={translate('enter girl name')} />
+            <Input className="user-info-input max-w-[600px]" placeholder={translate('enter girl name')} />
           </Form.Item>
           <Form.Item
-            label={translate('relationship')}
+            id="relationship"
+            label={<span className="font-bold">{translate('relationship')}</span>}
             name="relationship"
             rules={[{ required: true, message: translate('please select relationship') }]}
-            className={`user-info-select ${selectedRelation === RelationStatus.OTHER ? 'w-[25%]' : 'w-[50%]'}`}>
-            <Select placeholder={translate('choose relationship')}>
+            className={`user-info-select ${selectedRelation === RelationStatus.OTHER ? 'xs:w-[50%] md:w-[25%] xs:max-w-[100%] md:max-w-[294px]' : 'xs:[100%] md:w-[50%]'}`}>
+            <Select
+              showSearch
+              optionFilterProp="label"
+              className="details-select"
+              placeholder={translate('choose relationship')}>
               {relationOptions.map((relation) => (
-                <Select.Option key={relation} value={relation}>
+                <Select.Option
+                  className={`${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
+                  label={i18n.language === 'ar' ? translate(relation.toLowerCase()) : relation}
+                  key={relation}
+                  value={relation}>
                   {translate(relation.toLowerCase())}
                 </Select.Option>
               ))}
@@ -96,22 +107,28 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
           </Form.Item>
           {selectedRelation === RelationStatus.OTHER && (
             <Form.Item
-              label={translate('enter relationship')}
-              className="w-[25%]"
+              id="relationshipNote"
+              label={<span className="font-bold">{translate('enter relationship')}</span>}
+              className="xs:w-[50%] md:w-[25%]"
               name="relationshipNote"
               rules={[{ required: true, message: translate('please specify other relation') }]}>
-              <Input className="user-info-input" placeholder={translate('enter relationship')} />
+              <Input
+                className="user-info-input xs:!max-w-[600px] md:max-w-[294px]"
+                placeholder={translate('enter relationship')}
+              />
             </Form.Item>
           )}
         </div>
       )}
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
-          label={translate('nationality')}
+          id="nationality"
+          label={<span className="font-bold">{translate('nationality')}</span>}
           name="nationality"
           rules={[{ required: true, message: translate('please select your nationality') }]}
-          className="user-info-select w-[50%]">
+          className="user-info-select xs:w-[100%] md:w-[50%]">
           <Select
+            className="details-select"
             showSearch
             optionFilterProp="label"
             filterSort={(optionA, optionB) =>
@@ -133,11 +150,13 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
           </Select>
         </Form.Item>
         <Form.Item
-          label={translate('residence country')}
+          id="country"
+          label={<span className="font-bold">{translate('residence country')}</span>}
           name="country"
-          className="user-info-select w-[50%]"
+          className="user-info-select xs:w-[100%] md:w-[50%]"
           rules={[{ required: true, message: translate('please select country') }]}>
           <Select
+            className="details-select"
             direction={i18n.language === 'ar' ? 'rtl' : 'ltr'}
             showSearch
             optionFilterProp="label"
@@ -161,11 +180,13 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
         </Form.Item>
       </div>
       <Form.Item
+        id="city"
         rules={[{ required: true, message: translate('please select city') }]}
-        label={translate('residence city')}
+        label={<span className="font-bold">{translate('residence city')}</span>}
         name="city"
-        className="user-info-select w-[50%]">
+        className="user-info-select xs:w-[100%] md:w-[50%]">
         <Select
+          className="details-select"
           direction={i18n.language === 'ar' ? 'rtl' : 'ltr'}
           showSearch
           optionFilterProp="label"

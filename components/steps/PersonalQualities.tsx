@@ -13,6 +13,7 @@ import useAddGroomHealthInfo from '@component/hooks/useAddGroomHealthInfo';
 import { useAuth } from '@component/contexts/AuthContext';
 import useAddParentHealthInfo from '@component/hooks/useAddParentHealthInfo';
 import { UserRole } from '@component/types/user';
+import TextArea from 'antd/es/input/TextArea';
 
 export type UserHealthInfo = {
   age: number;
@@ -112,59 +113,62 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       await parentHealthInfoMutation.mutateAsync(extendedData);
     }
   };
-
+  console.log('helppp', user?.isSmoking);
+  console.log('helppp', user?.isSmoking ? user?.isSmoking : false);
   return (
     <Form
       initialValues={{
         age: user?.age,
         height: user?.height,
         weight: user?.weight,
-        isSmoking: user?.isSmoking,
-        isAlchohol: user?.isAlchohol,
         skinColor: user?.skinColor,
       }}
+      id="personal-qualities-form"
       form={form}
       requiredMark={false}
       onFinish={onFinish}
       layout="vertical"
       className="text-xs form-container">
       <div className="form-item-wrapper w-[100%]">
-        <div className="w-[50%] flex gap-x-4">
+        <div className="user-basic-details">
           <Form.Item
-            className="user-info-select w-[15%] min-w-[190px]"
-            label={translate('age')}
+            id="age"
+            className="user-info-select xs:w-[100%] md:w-[30%]"
+            label={<span className="font-bold">{translate('age')}</span>}
             name="age"
             rules={[{ required: true, message: translate('please select age') }]}>
-            <Select placeholder={translate('choose age')}>
-              {Array.from({ length: 150 }, (_, i) => (
-                <Select.Option key={i + 1} value={i + 1}>
-                  {i + 1}
+            <Select className="details-select" showSearch placeholder={translate('choose age')}>
+              {Array.from({ length: 91 }, (_, i) => (
+                <Select.Option key={i + 10} value={i + 10}>
+                  {i + 10}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
-            label={translate('height')}
+            id="height"
+            label={<span className="font-bold">{translate('height')}</span>}
             name="height"
             rules={[{ required: true, message: translate('please select height') }]}
-            className="user-info-select w-[15%] min-w-[190px]">
-            <Select placeholder={translate('choose height')}>
-              {Array.from({ length: 250 }, (_, i) => (
-                <Select.Option key={i + 1} value={i + 1}>
-                  {i + 1}
+            className="user-info-select xs:w-[100%] md:w-[30%] ">
+            <Select className="details-select" showSearch placeholder={translate('choose height')}>
+              {Array.from({ length: 131 }, (_, i) => (
+                <Select.Option key={i + 100} value={i + 100}>
+                  {i + 100}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
-            label={translate('weight')}
+            id="weight"
+            label={<span className="font-bold">{translate('weight')}</span>}
             name="weight"
             rules={[{ required: true, message: translate('please select weight') }]}
-            className="user-info-select w-[15%] min-w-[190px]">
-            <Select placeholder={translate('choose weight')}>
-              {Array.from({ length: 350 }, (_, i) => (
-                <Select.Option key={i + 1} value={i + 1}>
-                  {i + 1}
+            className="user-info-select xs:w-[100%] md:w-[30%]">
+            <Select className="details-select" showSearch placeholder={translate('choose weight')}>
+              {Array.from({ length: 161 }, (_, i) => (
+                <Select.Option key={i + 40} value={i + 40}>
+                  {i + 40}
                 </Select.Option>
               ))}
             </Select>
@@ -172,8 +176,9 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
         </div>
         {user?.authorities?.some((auth) => auth.name === UserRole.PARENT) && (
           <Form.Item
+            id="beautyLevel"
             initialValue={BeautyLevel.BEAUTIFUL}
-            label={translate('beauty level')}
+            label={<span className="font-bold">{translate('beauty level')}</span>}
             name="beautyLevel"
             rules={[{ required: true, message: translate('please select beauty level') }]}
             className="xs:w-[100%] lg:w-[50%]">
@@ -188,8 +193,9 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
+          id="healthStatus"
           initialValue={HealthStatus.HEALTHY}
-          label={translate('health condition')}
+          label={<span className="font-bold">{translate('health condition')}</span>}
           name="healthStatus"
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
@@ -201,8 +207,9 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
         </Form.Item>
         {user?.authorities?.some((auth) => auth.name === UserRole.GROOM) ? (
           <Form.Item
+            id="groomPhysique"
             initialValue={GroomPhysiqueStatus.ATHLETE}
-            label={translate('physique')}
+            label={<span className="font-bold">{translate('physique')}</span>}
             name="physique"
             className="xs:w-[100%] lg:w-[50%]">
             <Radio.Group
@@ -214,8 +221,9 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
           </Form.Item>
         ) : (
           <Form.Item
+            id="physique"
             initialValue={PhysiqueStatus.MEDIUM}
-            label={translate('physique')}
+            label={<span className="font-bold">{translate('physique')}</span>}
             name="physique"
             className="xs:w-[100%] lg:w-[50%]">
             <Radio.Group
@@ -229,8 +237,9 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
-          initialValue={false}
-          label={translate('smoking')}
+          initialValue={user?.isSmoking ? user?.isSmoking : false}
+          id="isSmoking"
+          label={<span className="font-bold">{translate('smoking')}</span>}
           name="isSmoking"
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
@@ -241,9 +250,10 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
           />
         </Form.Item>
         <Form.Item
-          label={translate('alcohol')}
-          initialValue={false}
+          id="isAlchohol"
+          label={<span className="font-bold">{translate('alcohol')}</span>}
           name="isAlchohol"
+          initialValue={user?.isAlchohol ? user?.isAlchohol : false}
           className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
             className="addiction-radio-button radio-group-spacing"
@@ -255,7 +265,8 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
-          label={translate('skin color')}
+          id="skinColor"
+          label={<span className="font-bold">{translate('skin color')}</span>}
           initialValue={SkinColor.WHITE}
           name="skinColor"
           className="xs:w-[100%] lg:w-[50%]">
@@ -271,7 +282,11 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
             })}
           </Radio.Group>
         </Form.Item>
-        <Form.Item label={translate('origin')} name="origin" className="xs:w-[100%] lg:w-[50%]">
+        <Form.Item
+          id="origin"
+          label={<span className="font-bold">{translate('origin')}</span>}
+          name="origin"
+          className="xs:w-[100%] lg:w-[50%]">
           <Radio.Group
             className="addiction-radio-button radio-group-spacing"
             options={originOptions}
@@ -283,16 +298,26 @@ export default function GeneralInformation({ form }: { form: FormInstance }) {
       </div>
       <div className="form-item-wrapper w-[100%]">
         <Form.Item
-          label={translate('about yourself') + ' ' + '(' + translate('optional') + ')'}
+          id="aboutYourself"
+          label={
+            <span className="font-bold">
+              {translate('about yourself')} <span className="text-[#888888]">({translate('optional')})</span>
+            </span>
+          }
           name="aboutYourself"
           className="xs:w-[100%] lg:w-[50%]">
-          <Input className="h-15 w-[620px]" placeholder={translate('about yourself')} />
+          <TextArea className="user-info-details-text" placeholder={translate('about yourself')} />
         </Form.Item>
         <Form.Item
-          label={translate('partner specifications') + ' ' + '(' + translate('optional') + ')'}
+          id="partnerSpecifications"
+          label={
+            <span className="font-bold">
+              {translate('partner specifications')} <span className="text-[#888888]">({translate('optional')})</span>
+            </span>
+          }
           name="partnerSpecifications"
           className="xs:w-[100%] lg:w-[50%]">
-          <Input className="h-15 w-[620px]" placeholder={translate('partner specifications')} />
+          <TextArea className="user-info-details-text" placeholder={translate('partner specifications')} />
         </Form.Item>
       </div>
     </Form>

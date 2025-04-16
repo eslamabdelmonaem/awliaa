@@ -4,9 +4,9 @@ import AuthCard from '../components/AuthCard';
 import { useForm } from 'antd/es/form/Form';
 import OtpInput from 'react-otp-input';
 import { useEffect, useState } from 'react';
-import BackButton from '@icons/arrow-left-icon.svg';
 import useVerifyOtp from '@component/hooks/useVerifyOtp';
 import { useAuth } from '@component/contexts/AuthContext';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 const RESEND_INTERVAL = 120;
 
@@ -15,7 +15,7 @@ export type OtpForm = {
 };
 
 export default function OTP() {
-  const { t: translate } = useTranslation('common');
+  const { t: translate, i18n } = useTranslation('common');
   const { otpMutation, userData } = useVerifyOtp();
   const { setUser, setToken } = useAuth();
   const [form] = useForm();
@@ -65,11 +65,22 @@ export default function OTP() {
     <AuthCard footerText={timeLeft === 0 ? formatTime(timeLeft) : <ResendButton />}>
       <Form form={form} name="login" onFinish={onFinish} layout="vertical" className="space-y-6">
         <h2 className="confirm-mobile-header">
-          <Button type="link" href="/register" icon={<BackButton />} /> {translate('confirm mobile')}
+          <Button
+            type="link"
+            href="/register"
+            icon={
+              i18n?.language === 'ar' ? (
+                <ArrowRightOutlined className="redirect-register-button" />
+              ) : (
+                <ArrowLeftOutlined className="redirect-register-button" />
+              )
+            }
+          />{' '}
+          {translate('confirm mobile')}
         </h2>
         <Form.Item
           name="otp"
-          rules={[{ required: true, message: translate('please enter password') }]}
+          rules={[{ required: true, message: translate('please enter code') }]}
           className="flex items-center justify-center">
           <OtpInput
             value={otp}

@@ -5,7 +5,7 @@ import PersonalQualities from './steps/PersonalQualities';
 import GeneralInformation from './steps/GeneralInformation';
 import { useTranslation } from 'react-i18next';
 import TickIcon from '@icons/tick-icon.svg';
-import LeftArrow from '@icons/arrow-left-icon.svg';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useStepperContext } from '@component/contexts/StepperContext';
 import MartialStatus from './steps/MartialStatus';
 
@@ -40,7 +40,7 @@ const stepComponents: Record<number, StepRenderer> = {
 };
 
 export default function Stepper() {
-  const { t: translate } = useTranslation('common');
+  const { t: translate, i18n } = useTranslation('common');
   const steps: Step[] = [
     { id: 1, title: translate('general information') },
     { id: 2, title: translate('personal qualities') },
@@ -97,7 +97,7 @@ export default function Stepper() {
                 }`}>
                 {step.id < currentStep ? <TickIcon /> : step.id}
               </div>
-              <span className="text-center sm:text-xs md:text-sm sm:block">{step.title}</span>
+              <span className="text-center sm:text-xs md:text-sm sm:block font-semibold">{step.title}</span>
             </div>
           ))}
         </div>
@@ -106,12 +106,14 @@ export default function Stepper() {
         <div className="step-component"> {StepComponentNode}</div>
         <div className="flex justify-between">
           <Button
-            icon={<LeftArrow />}
+            id="back-button"
+            icon={i18n?.language === 'ar' ? <ArrowRightOutlined /> : <ArrowLeftOutlined />}
             onClick={handlePrevious}
             className={`${currentStep === 1 ? '!hidden' : 'back-button'}`}>
             {translate('back')}
           </Button>
           <Button
+            id="save-and-continue"
             onClick={handleNext}
             htmlType="submit"
             disabled={currentStep === steps.length}

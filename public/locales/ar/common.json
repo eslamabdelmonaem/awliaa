@@ -72,11 +72,11 @@
   "phone number": "رقم الجوال",
   "enter username": "اسم المستخدم",
   "enter password": "ادخل كلمة المرور",
-  "forgot password": " نسيت كلمة المرور",
+  "forgot password": "نسيت كلمة المرور ؟",
   "remember me": "تذكرني",
   "accept": "الموافقة علي",
-  "confirm mobile": "تاكيد رقم الجوال",
-  "confirm": "تاكيد",
+  "confirm mobile": "تأكيد رقم الجوال",
+  "confirm": "تأكيد",
   "MOBILE_ALREADY_EXISTS": "رقم الجوال مستخدم بالفعل",
   "please select country": "الرجاء تحديد البلد",
   "please select your nationality": "الرجاء تحديد الجنسية",
@@ -113,5 +113,6 @@
   "feminine medium": "متوسطة",
   "feminine full": "ممتلئة",
   "feminine overweight": "سمينة",
-  "resend": "إعادة الارسال"
+  "resend": "إعادة الارسال",
+  "please enter code": "الرجاء ادخال الرمز"
 }

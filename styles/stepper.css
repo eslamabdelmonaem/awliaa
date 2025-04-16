@@ -38,7 +38,7 @@
 .stepper-content {
   margin-inline: auto;
   min-height: 400px;
-  padding: 20px;
+  padding: 40px 20px;
   width: 70%;
   background-color: white;
   box-shadow: 0px -30px 30.8px 0px rgba(0, 0, 0, 0.13);
@@ -85,11 +85,11 @@
 .user-info-input,
 .user-info-select .ant-select-selector,
 .user-info-select .ant-select-single {
-  height: 40px !important;
+  height: 48px !important;
 }
 
 .save-button {
-  background-color: #061539;
+  background-color: var(--primary-color);
   margin-inline-start: auto;
   color: #fff;
   height: 48px;
@@ -97,11 +97,11 @@
 }
 
 .back-button {
-  border: 1px solid #061539;
   height: 48px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
 }
 
 .layout-content {

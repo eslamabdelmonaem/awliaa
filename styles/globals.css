@@ -8,6 +8,8 @@
   --stepper-height: 217px;
   --footer-height: 343px;
   --split-position: 50%;
+  --primary-color: #061539;
+  --font-family: 'Alexandria', sans-serif;
 }
 
 @theme inline {

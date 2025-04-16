@@ -12,12 +12,12 @@ interface AuthCardProps {
 
 export default function AuthCard({ title, children, footerText, footerLinkText, footerLinkHref }: AuthCardProps) {
   return (
-    <div className="auth-card">
+    <div id="authCard" className="auth-card">
       <h2 className="card-title">{title}</h2>
       {children}
       <div className="text-center">
         <span className="text-[#71717A]">{footerText}</span>{' '}
-        <Link href={footerLinkHref || '#'} className="auth-links font-bold">
+        <Link id="footerLink" href={footerLinkHref || '#'} className="auth-links font-bold">
           {footerLinkText}
         </Link>
       </div>

@@ -72,7 +72,7 @@
 .form-button {
   height: 65px;
   width: 100%;
-  background-color: #061539;
+  background-color: var(--primary-color);
   color: #fff;
   border-radius: 8px;
 }
@@ -82,7 +82,7 @@
   font-weight: 600;
   display: flex;
   gap: 20px;
-  align-items: center;
+  align-items: start;
   margin-block-end: 40px;
 }
 
@@ -134,4 +134,14 @@
 
 .phone-input-rtl .PhoneInputInput {
   text-align: right;
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    max-width: 350px;
+  }
+}
+
+.redirect-register-button {
+  color: var(--primary-color);
 }

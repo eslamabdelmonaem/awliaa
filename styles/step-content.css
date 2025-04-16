@@ -13,19 +13,25 @@
 }
 
 .health-radio-button .ant-radio-button-wrapper {
-  min-width: 141px;
+  width: 141px;
 }
 
 .parent-health-radio-button .ant-radio-button-wrapper {
-  min-width: 110px;
+  width: 110px;
 }
 
 .addiction-radio-button .ant-radio-button-wrapper {
-  min-width: 298px;
+  width: 294px;
 }
+
 .skin-radio-button .ant-radio-button-wrapper {
-  min-width: 90px;
+  padding-inline: 4px;
+  width: 89px;
   background-color: transparent !important;
+}
+
+.optional-input {
+  max-width: 600px;
 }
 
 .ant-radio-button-wrapper .ant-radio-button-checked {
@@ -79,4 +85,38 @@
 .skin-option.DARK_BROWN {
   background-color: #2b2a26 !important;
   color: #fff !important;
+}
+
+.user-basic-details {
+  display: flex;
+  gap: 16px;
+  width: 50%;
+}
+
+.details-select {
+  max-width: 600px;
+}
+
+.user-info-input,
+.ant-radio-button-wrapper,
+.details-select .ant-select-selector {
+  border: 1px solid #b0b0b0 !important;
+  border-radius: 8px;
+}
+
+.user-info-details-text {
+  min-height: 100px !important;
+  max-height: 150px !important;
+  max-width: 600px !important;
+}
+
+@media (max-width: 768px) {
+  .user-basic-details {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .optional-input {
+    max-width: 300px;
+  }
 }

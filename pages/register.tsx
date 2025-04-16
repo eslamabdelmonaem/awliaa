@@ -94,6 +94,8 @@ export default function Register() {
           className="phone-input-form"
           name="mobile">
           <PhoneInput
+            countryCallingCodeEditable={false}
+            smartCaret
             className={`phone-input ${i18n.language === 'ar' ? 'phone-input-rtl ' : ''}`}
             international
             defaultCountry="EG"

@@ -7,13 +7,15 @@
   padding: 30px 80px;
   z-index: 50;
 }
+
 .home-page-text {
   font-size: 14px;
+  text-align: center;
 }
 
 .header-title {
   font-size: 24px;
-  color: #061539;
+  color: var(--primary-color);
   font-weight: bold;
   margin-inline-end: 32px;
 }
@@ -32,7 +34,7 @@
   height: 42px;
   padding: 5px;
   border-radius: 50%;
-  border: 1px solid #061539;
+  border: 1px solid var(--primary-color);
 }
 
 .user-info-wrapper {
@@ -42,7 +44,7 @@
 }
 
 .register-button {
-  background-color: #061539;
+  background-color: var(--primary-color);
   min-width: 120px;
   padding-block-start: 8px;
   height: 40px;
@@ -52,6 +54,10 @@
 .register-button:hover {
   background-color: #4e6f8b !important;
   color: #fff !important;
+}
+
+.profile-arrow {
+  background-color: var(--primary-color);
 }
 
 @media (max-width: 1098px) {
@@ -65,7 +71,33 @@
     text-align: center;
     margin-inline-end: 12px;
   }
+
   .header {
     padding: 20px 30px;
+  }
+
+  .home-page-text {
+    display: inline-block;
+    align-items: start;
+    font-size: 10px;
+  }
+
+  .register-button {
+    font-size: 10px;
+    height: 30px;
+    min-width: 30px;
+    padding-block-start: 6px;
+  }
+
+  .language-switcher {
+    width: 32px;
+    height: 32px;
+    font-weight: 700;
+  }
+
+  .user-profile-photo {
+    width: 32px;
+    height: 32px;
+    font-weight: 700;
   }
 }
